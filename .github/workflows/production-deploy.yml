@@ -79,11 +79,11 @@ jobs:
         run: aws eks --region us-east-1 update-kubeconfig --name production-cluster
 
       # Set up kubectl
-      - name: Configure kubectl
-        run: |
-          echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig
-          export KUBECONFIG=kubeconfig
-          kubectl version --client
+      # - name: Configure kubectl
+      #   run: |
+      #     echo "${{ secrets.KUBECONFIG }}" | base64 --decode > kubeconfig
+      #     export KUBECONFIG=kubeconfig
+      #     kubectl version --client
 
       # Install Helm
       - name: Install Helm
