@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-nodejs-green
+  labels:
+    app: nodejs-green
+    release: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: nodejs-green
+  template:
+    metadata:
+      labels:
+        app: nodejs-green
+    spec:
+      containers:
+        - name: nodejs
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          ports:
+            - containerPort: 3000
+  
