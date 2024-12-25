@@ -1,3 +1,4 @@
+# Base Image
 FROM node:22-slim AS build
 
 WORKDIR /usr/src/app
