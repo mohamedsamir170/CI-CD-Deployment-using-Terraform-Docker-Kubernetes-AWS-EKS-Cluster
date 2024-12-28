@@ -70,7 +70,7 @@ jobs:
       #     echo "${KUBECONFIG}" > kubeconfig
       #     export KUBECONFIG=kubeconfig
 
-      # - name: Update kubeconfig for EKS
+      - name: Update kubeconfig for EKS
         run: aws eks --region us-east-1 update-kubeconfig --name staging-devstage
 
       - name: Create staging namespace if it doesn't exist
