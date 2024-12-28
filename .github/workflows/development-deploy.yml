@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - development
+env:
+  KUBECONFIG: ${{ secrets.DEV_KUBECONFIG }}
 
 jobs:
   build-and-test:
@@ -60,10 +62,16 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1 # Replace with your AWS region
+          aws-region: us-east-1
 
-      - name: Update kubeconfig for EKS
-        run: aws eks --region us-east-1 update-kubeconfig --name devstage-cluster
+      # Authenticate to the Kubernetes cluster
+      - name: Authenticate to Cluster
+        run: |
+          echo "${KUBECONFIG}" > kubeconfig
+          export KUBECONFIG=kubeconfig
+
+      # - name: Update kubeconfig for EKS
+      #   run: aws eks --region us-east-1 update-kubeconfig --name devstage-cluster
 
       - name: Create staging namespace if it doesn't exist
         run: |
