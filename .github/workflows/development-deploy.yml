@@ -65,13 +65,13 @@ jobs:
           aws-region: us-east-1
 
       # Authenticate to the Kubernetes cluster
-      - name: Authenticate to Cluster
-        run: |
-          echo "${KUBECONFIG}" > kubeconfig
-          export KUBECONFIG=kubeconfig
+      # - name: Authenticate to Cluster
+      #   run: |
+      #     echo "${KUBECONFIG}" > kubeconfig
+      #     export KUBECONFIG=kubeconfig
 
       # - name: Update kubeconfig for EKS
-      #   run: aws eks --region us-east-1 update-kubeconfig --name devstage-cluster
+        run: aws eks --region us-east-1 update-kubeconfig --name staging-devstage
 
       - name: Create staging namespace if it doesn't exist
         run: |
