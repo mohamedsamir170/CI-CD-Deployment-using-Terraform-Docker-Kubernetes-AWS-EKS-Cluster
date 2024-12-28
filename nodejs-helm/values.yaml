@@ -4,4 +4,4 @@ image:
   tag: latest
 
 # Specify the active deployment (blue or green)
-activeApp: nodejs-blue
+activeApp: nodejs-blue  

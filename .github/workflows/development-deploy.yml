@@ -44,7 +44,7 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/nodejs:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/nodejs:latest
 
   deploy:
     runs-on: ubuntu-latest
@@ -64,6 +64,13 @@ jobs:
 
       - name: Update kubeconfig for EKS
         run: aws eks --region us-east-1 update-kubeconfig --name devstage-cluster
+
+      - name: Create staging namespace if it doesn't exist
+        run: |
+
+          if [[ -z $(kubectl get namespace | grep -w development) ]]; then
+              kubectl create namespace development
+          fi
 
       # Deploy to the correct namespace (development or staging)
       - name: Deploy to Kubernetes

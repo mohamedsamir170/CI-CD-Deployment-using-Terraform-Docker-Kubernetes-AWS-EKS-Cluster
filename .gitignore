@@ -33,4 +33,13 @@ tsconfig.tsbuildinfo
 
 dist/
 
-terraform/*
+# Ignore Terraform state files and backups
+**/terraform.tfstate
+**/terraform.tfstate.backup
+
+# Ignore Terraform lock file
+**/.terraform.lock.hcl
+
+# Ignore Terraform directories
+**/.terraform/
+

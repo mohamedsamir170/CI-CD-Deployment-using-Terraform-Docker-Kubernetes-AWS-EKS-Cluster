@@ -60,17 +60,19 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1 # Replace with your AWS region
+          aws-region: us-east-1
 
       - name: Update kubeconfig for EKS
         run: aws eks --region us-east-1 update-kubeconfig --name devstage-cluster
 
-      # Deploy to the correct namespace (development or staging)
+      - name: Create staging namespace if it doesn't exist
+        run: |
+          if [[ -z $(kubectl get namespace | grep -w staging) ]]; then
+              kubectl create namespace staging
+          fi
+
       - name: Deploy to Kubernetes
         run: |
-
-          # Apply the Service and Deployment manifests for the correct namespace
           kubectl apply -f ./deplyment.yaml -n staging
 
-          # Wait for the deployment to complete
           kubectl rollout status deployment/nodejs -n staging --timeout=300s
