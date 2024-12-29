@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - development
-env:
-  KUBECONFIG: ${{ secrets.DEV_KUBECONFIG }}
 
 jobs:
   build-and-test:
@@ -62,24 +60,21 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ secrets.AWS_REGION }}
 
       - name: Update kubeconfig for EKS
-        run: aws eks --region us-east-1 update-kubeconfig --name staging-devstage
+        run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.STAGING_CLUSTER }}
 
-      - name: Create staging namespace if it doesn't exist
+      - name: Create development namespace if it doesn't exist
         run: |
 
           if [[ -z $(kubectl get namespace | grep -w development) ]]; then
               kubectl create namespace development
           fi
 
-      # Deploy to the correct namespace (development or staging)
+      # Deploy to the development namespace
       - name: Deploy to Kubernetes
         run: |
 
           # Apply the Service and Deployment manifests for the correct namespace
           kubectl apply -f ./deplyment.yaml -n development
-
-          # Wait for the deployment to complete
-          kubectl rollout status deployment/nodejs -n development --timeout=300s
