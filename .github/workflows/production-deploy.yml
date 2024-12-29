@@ -56,11 +56,9 @@ jobs:
     runs-on: ubuntu-latest
     # needs: build-and-push
     steps:
-      # Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Set up kubectl
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
@@ -76,31 +74,43 @@ jobs:
       - name: Update kubeconfig for EKS
         run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.PRODUCTION_CLUSTER }}
 
-      - name: Choose Deployment Target
-        id: choose-target
+      - name: Determine Active Deployment
+        id: active-env
         run: |
-          echo "Select deployment target:"
-          echo "1) blue"
-          echo "2) green"
-          read -p "Enter the number corresponding to your choice: " CHOICE
-          if [ "$CHOICE" == "1" ]; then
-            echo "target=blue" >> $GITHUB_ENV
-          elif [ "$CHOICE" == "2" ]; then
-            echo "target=green" >> $GITHUB_ENV
+          ACTIVE_ENV=$(kubectl get svc nodejs-app -o=jsonpath='{.spec.selector.color}')
+          if [ "$ACTIVE_ENV" == "blue" ]; then
+            echo "inactive_env=green" >> $GITHUB_ENV
+          elif [ "$ACTIVE_ENV" == "green" ]; then
+            echo "inactive_env=blue" >> $GITHUB_ENV
           else
-            echo "Invalid choice, exiting."
+            echo "Error: Unable to determine active environment."
             exit 1
           fi
 
-      - name: Deploy to Kubernetes
+      - name: Deploy to Inactive Environment
         run: |
-          if [ "${{ env.target }}" == "blue" ]; then
-            echo "Deploying to blue..."
+          echo "Deploying to the inactive environment: ${{ env.inactive_env }}."
+          if [ "${{ env.inactive_env }}" == "blue" ]; then
             kubectl apply -f ./deployment-blue.yaml
-          elif [ "${{ env.target }}" == "green" ]; then
-            echo "Deploying to green..."
+          elif [ "${{ env.inactive_env }}" == "green" ]; then
             kubectl apply -f ./deployment-green.yaml
-          else
-            echo "Invalid target environment, exiting."
-            exit 1
+          fi
+
+      - name: Verify Deployment
+        run: |
+          echo "Verifying the deployment to ${{ env.inactive_env }}..."
+          kubectl rollout status deployment/nodejs-app-${{ env.inactive_env }}
+
+      - name: Switch Traffic
+        run: |
+          echo "Switching traffic to ${{ env.inactive_env }}..."
+          kubectl patch svc nodejs-app -p '{"spec":{"selector":{"color":"'${{ env.inactive_env }}'"}}}'
+
+      - name: Clean Up Old Deployment
+        run: |
+          echo "Cleaning up the old deployment..."
+          if [ "${{ env.inactive_env }}" == "blue" ]; then
+            kubectl delete deployment nodejs-app-green || echo "No green deployment to delete."
+          elif [ "${{ env.inactive_env }}" == "green" ]; then
+            kubectl delete deployment nodejs-app-blue || echo "No blue deployment to delete."
           fi
