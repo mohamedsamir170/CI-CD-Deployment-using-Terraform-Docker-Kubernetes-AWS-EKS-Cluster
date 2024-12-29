@@ -1,7 +1,5 @@
 replicas: 2
 image:
-  repository: mohamedsamir170/node
+  repository: mohamedsamir170/nodejs
   tag: latest
-
-# Specify the active deployment (blue or green)
-activeApp: nodejs-blue  
+activeVersion: blue
