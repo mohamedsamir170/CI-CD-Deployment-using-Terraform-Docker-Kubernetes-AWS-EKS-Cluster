@@ -4,16 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch:
-    inputs:
-      deploy_target:
-        description: 'Select blue or green for deployment'
-        required: true
-        default: 'blue'
-        type: choice
-        options:
-          - blue
-          - green
+  workflow_dispatch: {}
 
 env:
   KUBECONFIG: ${{ secrets.KUBECONFIG }}
@@ -75,20 +66,6 @@ jobs:
         with:
           version: 'latest'
 
-      - name: Deploy to Kubernetes
-        run: |
-          if [ "${{ github.event.inputs.deploy_target }}" == "blue" ]; then
-            echo "Deploying to blue..."
-            kubectl apply -f ./deployment-blue.yaml
-          elif [ "${{ github.event.inputs.deploy_target }}" == "green" ]; then
-            echo "Deploying to green..."
-            kubectl apply -f ./deployment-green.yaml
-          else
-            echo "Invalid choice, please select either 'blue' or 'green'."
-            exit 1
-          fi
-
-      # Set up AWS credentials and configure kubectl
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -99,3 +76,31 @@ jobs:
       - name: Update kubeconfig for EKS
         run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.PRODUCTION_CLUSTER }}
 
+      - name: Choose Deployment Target
+        id: choose-target
+        run: |
+          echo "Select deployment target:"
+          echo "1) blue"
+          echo "2) green"
+          read -p "Enter the number corresponding to your choice: " CHOICE
+          if [ "$CHOICE" == "1" ]; then
+            echo "target=blue" >> $GITHUB_ENV
+          elif [ "$CHOICE" == "2" ]; then
+            echo "target=green" >> $GITHUB_ENV
+          else
+            echo "Invalid choice, exiting."
+            exit 1
+          fi
+
+      - name: Deploy to Kubernetes
+        run: |
+          if [ "${{ env.target }}" == "blue" ]; then
+            echo "Deploying to blue..."
+            kubectl apply -f ./deployment-blue.yaml
+          elif [ "${{ env.target }}" == "green" ]; then
+            echo "Deploying to green..."
+            kubectl apply -f ./deployment-green.yaml
+          else
+            echo "Invalid target environment, exiting."
+            exit 1
+          fi
