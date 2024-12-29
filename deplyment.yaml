@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: nodejs
-        image: mohamedsamir170/node:latest
+        image: mohamedsamir170/nodejs:latest
         resources:
           limits:
             memory: "1000Mi"

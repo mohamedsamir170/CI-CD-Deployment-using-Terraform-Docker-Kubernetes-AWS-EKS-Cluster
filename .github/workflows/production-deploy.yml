@@ -4,6 +4,16 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      deploy_target:
+        description: 'Select blue or green for deployment'
+        required: true
+        default: 'blue'
+        type: choice
+        options:
+          - blue
+          - green
 
 env:
   KUBECONFIG: ${{ secrets.KUBECONFIG }}
@@ -65,17 +75,18 @@ jobs:
         with:
           version: 'latest'
 
-      # Set up Helm
-      - name: Set up Helm
-        uses: azure/setup-helm@v3
-        with:
-          version: 'latest'
-
-      # # Authenticate to the Kubernetes cluster
-      # - name: Authenticate to Cluster
-      #   run: |
-      #     echo "${KUBECONFIG}" > kubeconfig
-      #     export KUBECONFIG=kubeconfig
+      - name: Deploy to Kubernetes
+        run: |
+          if [ "${{ github.event.inputs.deploy_target }}" == "blue" ]; then
+            echo "Deploying to blue..."
+            kubectl apply -f ./deployment-blue.yaml
+          elif [ "${{ github.event.inputs.deploy_target }}" == "green" ]; then
+            echo "Deploying to green..."
+            kubectl apply -f ./deployment-green.yaml
+          else
+            echo "Invalid choice, please select either 'blue' or 'green'."
+            exit 1
+          fi
 
       # Set up AWS credentials and configure kubectl
       - name: Set up AWS credentials
@@ -88,48 +99,3 @@ jobs:
       - name: Update kubeconfig for EKS
         run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.PRODUCTION_CLUSTER }}
 
-      # Helm linting and chart packaging
-      - name: Lint Helm Chart
-        run: helm lint ${{ env.HELM_CHART_PATH }}
-
-      # Check if ConfigMap exists
-      - name: Check ConfigMap
-        id: check-configmap
-        run: |
-          if kubectl get configmap active-version; then
-            ACTIVE_VERSION=$(kubectl get configmap active-version -o jsonpath='{.data.version}')
-          else
-            ACTIVE_VERSION="blue"
-          fi
-          echo "ACTIVE_VERSION=$ACTIVE_VERSION" >> $GITHUB_ENV
-          echo "Current Active Version: $ACTIVE_VERSION"
-
-      # Deploy application
-      - name: Deploy Application
-        run: |
-          helm upgrade --install ${{ env.HELM_RELEASE_NAME }} ${{ env.HELM_CHART_PATH }} \
-            --set activeVersion=${{ env.ACTIVE_VERSION }} \
-            --wait
-
-      # Switch traffic to the other version
-      - name: Switch Traffic Version
-        run: |
-          if [ "${{ env.ACTIVE_VERSION }}" == "blue" ]; then
-            echo "Switching traffic to green..."
-            helm upgrade ${{ env.HELM_RELEASE_NAME }} ${{ env.HELM_CHART_PATH }} \
-              --set activeVersion=green \
-              --wait
-            kubectl create configmap active-version --from-literal=version=green --dry-run=client -o yaml | kubectl apply -f -
-          else
-            echo "Switching traffic to blue..."
-            helm upgrade ${{ env.HELM_RELEASE_NAME }} ${{ env.HELM_CHART_PATH }} \
-              --set activeVersion=blue \
-              --wait
-            kubectl create configmap active-version --from-literal=version=blue --dry-run=client -o yaml | kubectl apply -f -
-          fi
-
-      # Test the deployment
-      - name: Test Deployed Application
-        run: |
-          kubectl get all -l app=nodejs
-          kubectl get services -o wide

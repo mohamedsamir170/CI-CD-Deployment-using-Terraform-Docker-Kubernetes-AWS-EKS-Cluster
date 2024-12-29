@@ -1,5 +1,12 @@
-replicas: 2
-image:
-  repository: mohamedsamir170/nodejs
-  tag: latest
+appName: nodejs
+version: blue
 activeVersion: blue
+replicas: 2
+image: mohamedsamir170/nodejs:latest
+serviceType: LoadBalancer
+servicePort: 3000
+containerPort: 3000
+
+service:
+  port: 3000
+  type: LoadBalancer

@@ -1,14 +1,15 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}
+  name: {{ .Values.appName }}
   labels:
-    app: nodejs
+    app: {{ .Values.appName }}
 spec:
-  type: LoadBalancer
+  type: {{ .Values.serviceType }}
   selector:
-    app: nodejs
+    app: {{ .Values.appName }}
     version: {{ .Values.activeVersion }}
   ports:
-  - port: 3000
-    targetPort: 3000
+  - port: {{ .Values.servicePort }}
+    targetPort: {{ .Values.containerPort }}
+service:
