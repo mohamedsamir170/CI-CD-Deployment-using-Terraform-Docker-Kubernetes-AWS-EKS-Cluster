@@ -8,7 +8,7 @@ on:
 env:
   KUBECONFIG: ${{ secrets.KUBECONFIG }}
   HELM_RELEASE_NAME: nodejs-app
-  HELM_CHART_PATH: ./nodejs-chart
+  HELM_CHART_PATH: ./nodejs-helm/Chart.yaml
 
 jobs:
   # build-and-test:
