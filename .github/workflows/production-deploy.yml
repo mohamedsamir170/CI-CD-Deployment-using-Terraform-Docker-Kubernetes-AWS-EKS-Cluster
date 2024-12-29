@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: {}
-
-env:
-  KUBECONFIG: ${{ secrets.KUBECONFIG }}
-  HELM_RELEASE_NAME: nodejs-app
-  HELM_CHART_PATH: ./nodejs-helm
 
 jobs:
   # build-and-test:
@@ -56,14 +50,17 @@ jobs:
     runs-on: ubuntu-latest
     # needs: build-and-push
     steps:
+      # Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      # Set up kubectl
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
           version: 'latest'
 
+          # Set up AWS credentials and configure kubectl
       - name: Set up AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -74,43 +71,9 @@ jobs:
       - name: Update kubeconfig for EKS
         run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.PRODUCTION_CLUSTER }}
 
-      - name: Determine Active Deployment
-        id: active-env
+      - name: Deploy to Kubernetes
         run: |
-          ACTIVE_ENV=$(kubectl get svc nodejs-app -o=jsonpath='{.spec.selector.color}')
-          if [ "$ACTIVE_ENV" == "blue" ]; then
-            echo "inactive_env=green" >> $GITHUB_ENV
-          elif [ "$ACTIVE_ENV" == "green" ]; then
-            echo "inactive_env=blue" >> $GITHUB_ENV
-          else
-            echo "Error: Unable to determine active environment."
-            exit 1
-          fi
 
-      - name: Deploy to Inactive Environment
-        run: |
-          echo "Deploying to the inactive environment: ${{ env.inactive_env }}."
-          if [ "${{ env.inactive_env }}" == "blue" ]; then
-            kubectl apply -f ./deployment-blue.yaml
-          elif [ "${{ env.inactive_env }}" == "green" ]; then
-            kubectl apply -f ./deployment-green.yaml
-          fi
+          # Apply the Service and Deployment manifests for the correct namespace
+          kubectl apply -f ./deplyment.yaml
 
-      - name: Verify Deployment
-        run: |
-          echo "Verifying the deployment to ${{ env.inactive_env }}..."
-          kubectl rollout status deployment/nodejs-app-${{ env.inactive_env }}
-
-      - name: Switch Traffic
-        run: |
-          echo "Switching traffic to ${{ env.inactive_env }}..."
-          kubectl patch svc nodejs-app -p '{"spec":{"selector":{"color":"'${{ env.inactive_env }}'"}}}'
-
-      - name: Clean Up Old Deployment
-        run: |
-          echo "Cleaning up the old deployment..."
-          if [ "${{ env.inactive_env }}" == "blue" ]; then
-            kubectl delete deployment nodejs-app-green || echo "No green deployment to delete."
-          elif [ "${{ env.inactive_env }}" == "green" ]; then
-            kubectl delete deployment nodejs-app-blue || echo "No blue deployment to delete."
-          fi
