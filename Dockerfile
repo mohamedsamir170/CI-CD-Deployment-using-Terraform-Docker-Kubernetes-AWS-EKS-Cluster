@@ -15,7 +15,7 @@ WORKDIR /usr/src/app
 COPY --from=build /usr/src/app/package*.json ./
 COPY --from=build /usr/src/app ./
 
-RUN npm install --only=production
+RUN npm install
 
 EXPOSE 3000
 
