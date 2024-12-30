@@ -78,6 +78,10 @@ jobs:
       - name: Update kubeconfig for EKS
         run: aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name ${{ secrets.PRODUCTION_CLUSTER }}
 
+      - name: Delete old deployment
+        run: |
+          kubectl delete deployment nodejs
+
       - name: Deploy to Kubernetes
         run: |
 

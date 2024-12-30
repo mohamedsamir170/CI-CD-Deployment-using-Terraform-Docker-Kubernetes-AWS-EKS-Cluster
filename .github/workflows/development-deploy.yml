@@ -79,6 +79,10 @@ jobs:
               kubectl create namespace development
           fi
 
+      - name: Delete old deployment
+        run: |
+          kubectl delete deployment nodejs -n development
+
       # Deploy to the development namespace
       - name: Deploy to Kubernetes
         run: |

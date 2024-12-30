@@ -80,6 +80,10 @@ jobs:
               kubectl create namespace staging
           fi
 
+      - name: Delete old deployment
+        run: |
+          kubectl delete deployment nodejs -n staging
+
       # Deploy to the staging namespace
       - name: Deploy to Kubernetes
         run: |
