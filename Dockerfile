@@ -17,10 +17,6 @@ COPY --from=build /usr/src/app ./
 
 RUN npm install
 
-RUN npm build
-
-RUN npm test
-
 EXPOSE 3000
 
 CMD ["npm", "start"]
