@@ -1,0 +1,13 @@
+{
+  "/_not-found/page": "app/_not-found/page.js",
+  "/[locale]/next-data/blog-data/[category]/[page]/route": "app/[locale]/next-data/blog-data/[category]/[page]/route.js",
+  "/[locale]/feed/[feed]/route": "app/[locale]/feed/[feed]/route.js",
+  "/[locale]/next-data/release-data/route": "app/[locale]/next-data/release-data/route.js",
+  "/[locale]/next-data/api-data/route": "app/[locale]/next-data/api-data/route.js",
+  "/robots.txt/route": "app/robots.txt/route.js",
+  "/[locale]/next-data/page-data/route": "app/[locale]/next-data/page-data/route.js",
+  "/[locale]/next-data/og/[category]/[title]/route": "app/[locale]/next-data/og/[category]/[title]/route.js",
+  "/sitemap.xml/route": "app/sitemap.xml/route.js",
+  "/[locale]/[...path]/page": "app/[locale]/[...path]/page.js",
+  "/[locale]/page": "app/[locale]/page.js"
+}

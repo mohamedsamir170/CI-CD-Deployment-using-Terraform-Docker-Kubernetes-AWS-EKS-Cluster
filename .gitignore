@@ -5,8 +5,8 @@ npm-debug.log
 .env.*
 
 # Next.js Build Output
-.next
-build
+# .next
+# build
 
 # Jest
 coverage

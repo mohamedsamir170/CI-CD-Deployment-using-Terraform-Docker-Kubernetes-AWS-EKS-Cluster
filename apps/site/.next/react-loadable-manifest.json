@@ -1,0 +1,85 @@
+{
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-button.entry-UMHBCANL.mjs": {
+    "id": 96557,
+    "files": [
+      "static/chunks/5358.91f43d3d224f7a09.js",
+      "static/chunks/6557.4bbab11eaa2ee2da.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-chat-assistent-message_6.entry-SIRVIHBZ.mjs": {
+    "id": 73176,
+    "files": [
+      "static/chunks/5358.91f43d3d224f7a09.js",
+      "static/chunks/3176.08524bfa0adab944.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-chat-box.entry-PU23RHNY.mjs": {
+    "id": 34968,
+    "files": [
+      "static/chunks/5358.91f43d3d224f7a09.js",
+      "static/chunks/4968.7d8afd5f0870e130.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-chat-button_7.entry-X6AAQRIV.mjs": {
+    "id": 75286,
+    "files": [
+      "static/chunks/5358.91f43d3d224f7a09.js",
+      "static/chunks/1102.606ef3f3cc802255.js",
+      "static/chunks/5286.e14f1736f9949e21.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-chat_3.entry-4L7TJ5BG.mjs": {
+    "id": 42664,
+    "files": [
+      "static/chunks/2664.8921b483a3a037a0.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-facets_3.entry-NL6EPQ7B.mjs": {
+    "id": 81542,
+    "files": [
+      "static/chunks/5358.91f43d3d224f7a09.js",
+      "static/chunks/1102.606ef3f3cc802255.js",
+      "static/chunks/1542.41a29cee7e70981a.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-logo-icon.entry-ZBCBO26C.mjs": {
+    "id": 15303,
+    "files": [
+      "static/chunks/5303.7636c892b109f32d.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-search-box.entry-ADDI5EAS.mjs": {
+    "id": 38299,
+    "files": [
+      "static/chunks/5358.91f43d3d224f7a09.js",
+      "static/chunks/8299.5f9adc7630d2634b.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-search-button.entry-UAJWNQTQ.mjs": {
+    "id": 58083,
+    "files": [
+      "static/chunks/5358.91f43d3d224f7a09.js",
+      "static/chunks/8083.f0414ace7e85c804.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-text.entry-GRKVNL3O.mjs": {
+    "id": 93404,
+    "files": [
+      "static/chunks/5358.91f43d3d224f7a09.js",
+      "static/chunks/1023.a3941b58745e83de.js"
+    ]
+  },
+  "../../node_modules/@orama/react-components/dist/chunk-H6ZUBD3H.mjs -> ./orama-toggler.entry-DPEMNZN3.mjs": {
+    "id": 18976,
+    "files": [
+      "static/chunks/8976.e3404396b460a485.js"
+    ]
+  },
+  "components/Containers/NavBar/index.tsx -> @/components/Common/Search": {
+    "id": 81306,
+    "files": [
+      "static/chunks/5671.a55408f48acf9156.js",
+      "static/chunks/1306.d8b4190f5cb95bfe.js"
+    ]
+  }
+}
