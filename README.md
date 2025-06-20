@@ -1,8 +1,8 @@
-# 🚀 Deploying Node.js App using Kubernetes and Terraform
+# Deploying Node.js App using Kubernetes and Terraform
 
 This project demonstrates deploying a Node.js web application on a Kubernetes cluster using Terraform for infrastructure provisioning on AWS (EKS).
 
-## 🧩 Tools & Technologies
+## Tools & Technologies
 - **Terraform** – Infrastructure as Code (IaC)
 - **AWS EKS** – Managed Kubernetes service
 - **Kubernetes** – Container orchestration
@@ -10,7 +10,7 @@ This project demonstrates deploying a Node.js web application on a Kubernetes cl
 - **Node.js** – Simple web app for demo
 - **kubectl** – Kubernetes CLI
 
-## 🗺️ Project Architecture
+## Project Architecture
 
 ```text
 Local Machine
@@ -24,7 +24,7 @@ AWS Cloud (EKS Cluster)
 Node.js App running in Kubernetes
 ```
 
-## ⚙️ How It Works
+## How It Works
 
 1. **Dockerize** a Node.js application.
 2. **Push the image** to Docker Hub.
@@ -34,7 +34,7 @@ Node.js App running in Kubernetes
 4. Configure **kubectl** to access the cluster.
 5. Apply Kubernetes manifests to deploy the app.
 
-## 📦 Setup & Deployment
+## Setup & Deployment
 
 ```bash
 # Clone the repo
