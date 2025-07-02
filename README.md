@@ -28,20 +28,7 @@ A comprehensive DevOps implementation showcasing enterprise-grade infrastructure
 - **Production Cluster**: Dedicated production environment for enhanced security and performance
 - **Network Architecture**: Each cluster in isolated VPC with public/private subnet design
 
-```
-┌─────────────────┐    ┌─────────────────┐
-│   DevStage VPC  │    │  Production VPC │
-│                 │    │                 │
-│ ┌─────────────┐ │    │ ┌─────────────┐ │
-│ │ Development │ │    │ │ Production  │ │
-│ │ Namespace   │ │    │ │ Workloads   │ │
-│ └─────────────┘ │    │ └─────────────┘ │
-│ ┌─────────────┐ │    │                 │
-│ │   Staging   │ │    │                 │
-│ │ Namespace   │ │    │                 │
-│ └─────────────┘ │    │                 │
-└─────────────────┘    └─────────────────┘
-```
+![Image](https://github.com/user-attachments/assets/022511a0-7e97-49da-9727-ee7b0bf1a37b)
 
 ## 🔧 DevOps Implementation
 
