@@ -97,8 +97,8 @@ service:
 ### Infrastructure Deployment
 ```bash
 # Clone repository
-git clone https://github.com/mohamedsamir170/Deploying-Node-app-using-k8s-terraform.git
-cd Enterprise CI/CD Deployment using Terraform, Docker, Kubernetes, AWS EKS Cluster
+git clone https://github.com/mohamedsamir170/CI-CD-Deployment-using-Terraform-Docker-Kubernetes-AWS-EKS-Cluster.git
+cd CI-CD-Deployment-using-Terraform-Docker-Kubernetes-AWS-EKS-Cluster
 
 # Deploy production infrastructure
 cd terraform/production
