@@ -1,10 +1,10 @@
-# Cloud-Native DevOps Pipeline: Multi-Environment Kubernetes Deployment
+# CI/CD Deployment using Terraform, Docker, Kubernetes, AWS EKS Cluster
 
-## 🚀 Project Overview
+## Project Overview
 
 A comprehensive DevOps implementation showcasing enterprise-grade infrastructure automation, containerization, and CI/CD practices. This project demonstrates the deployment of a Node.js application across multiple environments using Infrastructure as Code (IaC), container orchestration, and automated deployment pipelines.
 
-## 📋 Project Highlights
+## Project Highlights
 
 - **Multi-Environment Architecture**: Separate development, staging, and production clusters
 - **Infrastructure as Code**: Complete AWS infrastructure provisioned with Terraform
@@ -12,7 +12,7 @@ A comprehensive DevOps implementation showcasing enterprise-grade infrastructure
 - **CI/CD Automation**: GitHub Actions pipeline with automated testing and deployment
 - **Cloud-Native Security**: VPC isolation, private subnets, and NAT Gateway configuration
 
-## 🛠 Technology Stack
+## Technology Stack
 
 | Category | Technology |
 |----------|------------|
@@ -21,7 +21,7 @@ A comprehensive DevOps implementation showcasing enterprise-grade infrastructure
 | **CI/CD** | GitHub Actions |
 | **Application** | Node.js |
 
-## 🏗 Architecture
+## Architecture
 
 ### Infrastructure Design
 - **DevStage Cluster**: Combined development and staging environments with namespace isolation
@@ -30,7 +30,7 @@ A comprehensive DevOps implementation showcasing enterprise-grade infrastructure
 
 ![Image](https://github.com/user-attachments/assets/022511a0-7e97-49da-9727-ee7b0bf1a37b)
 
-## 🔧 DevOps Implementation
+## DevOps Implementation
 
 ### 1. Infrastructure as Code (Terraform)
 **Modular Infrastructure Design** with reusable components:
@@ -86,7 +86,7 @@ service:
 3. **Registry**: Automated push to Docker Hub
 4. **Deployment**: Kubernetes manifest application across environments
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - AWS CLI configured with appropriate permissions
@@ -97,20 +97,20 @@ service:
 ### Infrastructure Deployment
 ```bash
 # Clone repository
-git clone <repository-url>
-cd cloud-native-devops-pipeline
+git clone https://github.com/mohamedsamir170/Deploying-Node-app-using-k8s-terraform.git
+cd Enterprise CI/CD Deployment using Terraform, Docker, Kubernetes, AWS EKS Cluster
 
-# Deploy infrastructure
-cd terraform
+# Deploy production infrastructure
+cd terraform/production
 terraform init
 terraform plan
 terraform apply
 
 # Configure kubectl
-aws eks update-kubeconfig --name <cluster-name> --region <region>
+aws eks update-kubeconfig --name production-production-eks-cluster --region us-east-1
 
 # Deploy application
-kubectl apply -f k8s/deployment.yaml
+kubectl apply -f deployment.yaml
 ```
 
 ## 📊 Key Metrics & Achievements
